@@ -15,7 +15,6 @@ elif user_input > secret_num:
 else:
     print(user_input + " is a right guess") """
 
-
 # A word scramble game
 word = ["zayn", "goat", "ronaldo", "genius", "jimmy", "jane", "precious"]
 
