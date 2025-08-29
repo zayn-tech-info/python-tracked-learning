@@ -1,7 +1,6 @@
 import sys
 from enum import Enum
 import random
-
 class RPS(Enum):
     rock = 1
     paper = 2
@@ -10,13 +9,11 @@ class RPS(Enum):
 playagain = True
 
 while playagain:
-    print("1 is Rock")
-    print("2 is Paper")
-    print("3 is sicssors")
-    userChoice = int(input("Enter a number to start playing: "))
+    print("\nEnter...")
+    print("1 for Rock\n2 for Paper\n3 for Scissors")
+    userChoice = int(input("\nEnter a number to start playing: \n"))
 
-    computerChoice = int(random.choice("123"))
-
+    computerChoice = random.choice([1, 2, 3])
     print("You chose " + RPS(userChoice).name + ".")
     print("Computer chose " + RPS(computerChoice).name + ".")
 
@@ -25,22 +22,21 @@ while playagain:
         sys.exit()
 
     if userChoice == 1 and computerChoice == 2:
-        print("Yahh, you won!")
+        print("\nYahh, you won!")
     elif userChoice == 3 and computerChoice == 2:
-        print("Yahh, You won")
+        print("\nYahh, You won")
     elif userChoice == 1 and computerChoice == 3:
-        print("yahh, You won")
+        print("\nyahh, You won")
     elif userChoice ==  computerChoice:
-        print("Tie game, Try again")
+        print("\nTie game, Try again")
     else:
-        print("Computer wins!")
+        print("\nComputer wins!")
     
     playagain = input('Enter "Y" to play again\n"Q" to quit\n\n')
 
-    if playagain .lower() == "y":
+    if playagain.lower() == "y":
         continue
     else:
-        break
         print("Thank you for playing")
-        playagain  == False
+        break
 sys.exit("Bye !")
