@@ -26,4 +26,4 @@ if __name__ == "__main__" :
 
     args = parser.parse_args()
     greet_people(args.name, args.lang)
-    print(args.name, args.lang)
+    # print(args.name, args.lang)
