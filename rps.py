@@ -2,7 +2,6 @@ import sys
 from enum import Enum
 import random
 
-
 def play_rps():
     game_count = 0
     player_wins = 0

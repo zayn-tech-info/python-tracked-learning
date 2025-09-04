@@ -1,77 +1,89 @@
-import tkinter as tk
-from tkinter import messagebox
+import sys
+import random
+from enum import Enum
 
-# Initialize main window
-root = tk.Tk()
-root.title("Tic-Tac-Toe")
 
-# Make window resizable for responsiveness
-root.geometry("400x400")
-root.minsize(300, 300)
+def rps():
+    game_count = 0
+    player_wins = 0
+    python_wins = 0
 
-# Current player
-current_player = "X"
+    def play_rps():
+        nonlocal player_wins
+        nonlocal python_wins
 
-# Create board
-board = [""] * 9
+        class RPS(Enum):
+            ROCK = 1
+            PAPER = 2
+            SCISSORS = 3
 
-# Check winner function
-def check_winner():
-    win_combinations = [
-        [0,1,2],[3,4,5],[6,7,8], # rows
-        [0,3,6],[1,4,7],[2,5,8], # columns
-        [0,4,8],[2,4,6]          # diagonals
-    ]
-    for combo in win_combinations:
-        if board[combo[0]] == board[combo[1]] == board[combo[2]] != "":
-            return board[combo[0]]
-    if "" not in board:
-        return "Draw"
-    return None
+        playerchoice = input(
+            "\nEnter... \n1 for Rock,\n2 for Paper, or \n3 for Scissors:\n\n")
 
-# Button click handler
-def button_click(index):
-    global current_player
-    if board[index] == "":
-        board[index] = current_player
-        buttons[index].config(text=current_player)
-        
-        winner = check_winner()
-        if winner:
-            if winner == "Draw":
-                messagebox.showinfo("Tic-Tac-Toe", "It's a draw!")
+        if playerchoice not in ["1", "2", "3"]:
+            print("You must enter 1, 2, or 3.")
+            return play_rps()
+
+        player = int(playerchoice)
+
+        computerchoice = random.choice("123")
+
+        computer = int(computerchoice)
+
+        print(f"\nYou chose {str(RPS(player)).replace('RPS.', '').title()}.")
+        print(
+            f"Python chose {str(RPS(computer)).replace('RPS.', '').title()}.\n"
+        )
+
+        def decide_winner(player, computer):
+            nonlocal player_wins
+            nonlocal python_wins
+            if player == 1 and computer == 3:
+                player_wins += 1
+                return "🎉 You win!"
+            elif player == 2 and computer == 1:
+                player_wins += 1
+                return "🎉 You win!"
+            elif player == 3 and computer == 2:
+                player_wins += 1
+                return "🎉 You win!"
+            elif player == computer:
+                return "😲 Tie game!"
             else:
-                messagebox.showinfo("Tic-Tac-Toe", f"Player {winner} wins!")
-            reset_board()
+                python_wins += 1
+                return "🐍 Python wins!"
+
+        game_result = decide_winner(player, computer)
+
+        print(game_result)
+
+        nonlocal game_count
+        game_count += 1
+
+        print(f"\nGame count: {str(game_count)}")
+        print(f"\nPlayer wins: {str(player_wins)}")
+        print(f"\nPython wins: {str(python_wins)}")
+
+        print("\nPlay again?")
+
+        while True:
+            playagain = input("\nY for Yes or \nQ to Quit\n")
+            if playagain.lower() not in ["y", "q"]:
+                continue
+            else:
+                break
+
+        if playagain.lower() == "y":
+            return play_rps()
         else:
-            current_player = "O" if current_player == "X" else "X"
+            print("\n🎉🎉🎉🎉")
+            print("Thank you for playing!\n")
+            sys.exit("Bye! 👋")
 
-# Reset board
-def reset_board():
-    global board, current_player
-    board = [""] * 9
-    current_player = "X"
-    for button in buttons:
-        button.config(text="")
+    return play_rps
 
-# Create buttons
-buttons = []
-for i in range(9):
-    btn = tk.Button(root, text="", font=('Arial', 24), command=lambda i=i: button_click(i))
-    buttons.append(btn)
 
-# Use grid with sticky to expand buttons
-for i in range(3):
-    root.grid_rowconfigure(i, weight=1)
-    root.grid_columnconfigure(i, weight=1)
+rock_paper_scissors = rps()
 
-for i in range(9):
-    buttons[i].grid(row=i//3, column=i%3, sticky="nsew")
-
-# Reset button
-reset_btn = tk.Button(root, text="Reset", font=('Arial', 18), bg="lightblue", command=reset_board)
-reset_btn.grid(row=3, column=0, columnspan=3, sticky="nsew")
-root.grid_rowconfigure(3, weight=0)
-
-# Run app
-root.mainloop()
+if __name__ == "__main__":
+    rock_paper_scissors()
